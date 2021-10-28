@@ -48,7 +48,7 @@
 				pinctrl-names = "default";
 
 				spi-max-frequency = <32000000>;
-				rotate = <0>;
+				rotate = <90>;
 				width = <240>;
 				height = <320>;
 				//bgr;

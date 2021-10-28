@@ -2,7 +2,7 @@
 
 Device-tree overlay for ST7789V fbdev.
 
-:warning: Note that Display HAT mini uses a genuinely 320x240 ST7789V2, in order to use ST7789 we set the display up as 240x320 and wish upon a star. As such, demo.py renders into a 320x240 canvas and manually rotates it using `pygame.transform.rotate`.
+:warning: Note that Display HAT mini uses a genuinely 320x240 ST7789V2, in order to use ST7789 we set the display up as 240x320 and wish upon a star. The result is then rotated 90 degrees to give us a 320x240 landscape display. As such the *default* rotation is 90 and 270 is 180 degrees from that (landscape upside-down).
 
 ## Installing
 

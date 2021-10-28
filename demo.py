@@ -86,7 +86,7 @@ class DisplayHATmini:
     def _updatefb(self):
         fbdev = os.getenv('SDL_FBDEV', '/dev/fb1')
         with open(fbdev, 'wb') as fb:
-            fb.write(pygame.transform.rotate(self.screen, 90).convert(16, 0).get_buffer())
+            fb.write(self.screen.convert(16, 0).get_buffer())
 
     def run(self):
         self._running = True

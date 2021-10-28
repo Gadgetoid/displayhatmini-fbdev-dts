@@ -5,11 +5,8 @@ import numpy as np
 
 from PIL import Image
 
-def image_to_bytes(image, rotation=0):
-    image = np.array(image.convert('RGB'))
-
-    # Rotate the image
-    pb = np.rot90(image, rotation // 90).astype('uint16')
+def image_to_bytes(image):
+    pb = np.array(image.convert('RGB')).astype('uint16')
 
     # Mask and shift the 888 RGB into 565 RGB
     red   = (pb[..., [0]] & 0xf8) << 8
@@ -34,7 +31,8 @@ image = image.resize((320, 240))
 image.save("bilgetank-test-card-1.png")
 
 fbdev = os.getenv('FRAMEBUFFER', '/dev/fb1')
-print(f"Rotating and displaying to {fbdev}")
+print(f"Displaying to {fbdev}")
 with open(fbdev, 'wb') as fb:
-    fb.write(image_to_bytes(image, rotation=90))
+    fb.write(image_to_bytes(image))
+
 
