@@ -1,0 +1,99 @@
+/*
+ * Device Tree overlay for PiScreen 3.5" display shield by Ozzmaker
+ *
+ */
+
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "brcm,bcm2835", "brcm,bcm2708", "brcm,bcm2709";
+
+
+//	fragment@0 {
+//		target = <&gpio>;
+//		__overlay__ {
+//			displayhatmini_pins: displayhatmini_pins {
+//				brcm,pins = <23 13>;    /* DC, Backlight & CS */
+//				brcm,function = <1 1>; /* out out out */
+//			};
+//		};
+//	};
+
+	fragment@0 {
+		target = <&spi0>;
+		__overlay__ {
+			status = "okay";
+
+			spidev@0{
+				status = "disabled";
+			};
+
+			spidev@1{
+				status = "disabled";
+			};
+		};
+	};
+
+	fragment@1 {
+		target = <&spi0>;
+		__overlay__ {
+			/* needed to avoid dtc warning */
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			displayhatmini: displayhatmini@0{
+				compatible = "sitronix,st7789v";
+				reg = <0>;
+				pinctrl-names = "default";
+
+				spi-max-frequency = <32000000>;
+				rotate = <0>;
+				width = <240>;
+				height = <320>;
+				//bgr;
+				fps = <60>;
+				buswidth = <8>;
+				regwidth = <8>;
+				dc-gpios = <&gpio 9 0>;
+				led-gpios = <&gpio 13 1>;
+				//cs-gpios = <&gpio 7 0>;
+				cs = <1>;
+				debug = <0>;
+
+				init = <0x1000001		/* SW Reset */
+					0x20000ff
+					0x1000036 0x70		/* MADCTL */
+					0x100003a 0x25		/* COLMOD */
+					0x10000b2 0x0c 0x0c 0x00 0x33 0x33 /* FRMCTR2 */
+					0x10000b7 0x14		/* GCTRL */
+					0x10000bb 0x37          /* VCOMS */
+					0x10000c0 0x2c          /* LMCTRL */
+					0x10000c2 0x01          /* VDVVRHEN */
+					0x10000c3 0x12          /* VRHS */
+					0x10000c4 0x20          /* VDVS */
+					0x10000c6 0x0f          /* FRCTRL2 */
+					0x10000d0 0xa4 0xa1     /* ??? */
+
+					0x1000021		/* INVON */ 
+					0x10000e0 0xD0 0x04 0x0D 0x11 0x13 0x2B 0x3F 0x54 0x4C 0x18 0x0D 0x0B 0x1F 0x23				
+					0x10000e1 0xD0 0x04 0x0C 0x11 0x13 0x2C 0x3F 0x44 0x51 0x2F 0x1F 0x1F 0x20 0x23
+					0x1000011		/* Sleep Out */
+					0x20000ff
+					0x1000029		/* DSPON */
+					>;
+					//0x100002A 0x00 0x00 0x01 0x3f /* CASET */
+                                        //0x100002B 0x00 0x00 0x00 0xef /* RASET */
+					//0x100002C                     /* RAMWR */
+					//>;
+			};
+
+		};
+	};
+	__overrides__ {
+		speed =		<&displayhatmini>,"spi-max-frequency:0";
+		rotate =	<&displayhatmini>,"rotate:0";
+		fps =		<&displayhatmini>,"fps:0";
+		debug =		<&displayhatmini>,"debug:0";
+	};
+};
