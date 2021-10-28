@@ -110,8 +110,8 @@ class DisplayHATmini:
                     b = min(255, int(b))
                     pygame.draw.circle(self.screen, (r, g, b), ((x * 15) + 6, (y * 15) + 6 + 7), 7)
 
-            box_w = 320 // 3
-            box_h = 240 // 2
+            box_w = 320 // 6
+            box_h = 240 // 4
 
             pygame.draw.rect(self.screen, (255, 0, 0), (0, 0, box_w, box_h))
             pygame.draw.rect(self.screen, (0, 255, 0), (box_w, 0, box_w, box_h))

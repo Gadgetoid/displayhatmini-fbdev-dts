@@ -14,12 +14,22 @@ Edit `/boot/config.txt` and ensure it has the following line:
 dtoverlay=spi0-1cs,cs0_pin=7,cs1_spidev=disabled
 ```
 
-Then build and insert the dtoverlay:
+Then build and insert the dtoverlay to test:
 
 ```
 make
 sudo make reload
 ```
+
+If everything looks good, install it to `/boot/overlays` with:
+
+```
+sudo make install
+```
+
+## Fun Things To Try
+
+* Try `fbterm` with `FRAMEBUFFER=/dev/fb1 fbterm -r 3` (or try other rotations)
 
 ## Notes
 
